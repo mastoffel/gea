@@ -54,8 +54,8 @@ testset = NTSDataset(
     labs=test_labs['lab'].to_list()
 )
 
-trainloader = DataLoader(trainset, batch_size=2, shuffle=True)
-testloader = DataLoader(testset, batch_size=2, shuffle=False)
+trainloader = DataLoader(trainset, batch_size=16, shuffle=True, drop_last=True)
+testloader = DataLoader(testset, batch_size=16, shuffle=False, drop_last=True)
 classes = sorted(set(train_labs['lab'].to_list()))
 dprint(1, f"Classes: {classes[:10]}... Total: {len(classes)}")
 
@@ -95,7 +95,7 @@ model = CNN().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
 
-n_epochs = 1
+n_epochs = 10
 train_losses = []
 val_losses = []
 
