@@ -54,14 +54,12 @@ def get_dataloaders(batch_size, split_fraction=0.8, data_path="data"):
     Load and process data, split into train and test sets, and create DataLoaders.
     """
     vals, labs = load_and_process(data_path)
-    
-    # split into train and test sets
+
     train_vals, test_vals = split(vals, split_fraction)
     train_labs, test_labs = split(labs, split_fraction)
     
     dprint(1, f"Train size: {len(train_vals)}, Test size: {len(test_vals)}")
-    
-    # create datasets and dataloaders       
+      
     trainset = NTSDataset(
         seqs=train_vals['sequence'].to_list(),
         labs=train_labs['lab'].to_list()
@@ -100,7 +98,6 @@ class NTSDataset(Dataset):
 
 
 if __name__ == "__main__":
-    # Example usage
     trainloader, testloader = get_dataloaders(batch_size=16, split_fraction=0.8, data_path="data")
     # classes = sorted(set(train_labs['lab'].to_list()))
     # dprint(1, f"Classes: {classes[:10]}... Total: {len(classes)}")

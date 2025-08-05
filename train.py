@@ -50,7 +50,7 @@ def train_model(
     criterion: nn.Module, 
     optimizer: torch.optim.Optimizer, 
     device: torch.device,
-    use_wandb: bool = True):
+    use_wandb: bool = False):
     
     if use_wandb:
         wandb.init(project="gea", config={
@@ -78,7 +78,7 @@ def train_model(
             running_loss += loss.item()
             epoch_loss += loss.item()
             
-            if i  % 1000 == 999:
+            if i  % 100 == 99:
                 last_loss = running_loss / 1000
                 dprint(1, f"Epoch [{epoch+1}/{n_epochs}], Step [{i+1}/{n_steps}], Loss: {last_loss:.4f}")
                 running_loss = 0.0
@@ -113,10 +113,10 @@ if __name__ == "__main__":
     device = get_device()
     dprint(1, f"Using device: {device}")
     
-    trainloader, testloader = get_dataloaders(batch_size=64)
+    trainloader, testloader = get_dataloaders(batch_size=32)
     
     model = CNN().to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.003)
     
-    train_model(10, model, trainloader, testloader, criterion, optimizer, device)
+    train_model(3, model, trainloader, testloader, criterion, optimizer, device)
